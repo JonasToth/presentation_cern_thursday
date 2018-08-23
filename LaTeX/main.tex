@@ -1,4 +1,4 @@
-\documentclass[aspectratio=1610,14pt,dvipsnames]{beamer}
+\documentclass[aspectratio=169,14pt,dvipsnames]{beamer}
 
 \title[Refactoring ALICE Masterclasses]{A new framework for the ALICE-Masterclasses}
 \author[Jonas Toth, CERN Summer Student]{Jonas Toth \linebreak CERN Summer Student}
@@ -70,18 +70,18 @@
     \item<1> deploy everywhere
     \item<1> if possible translate to local language
 
-    \item<2> \textbf{more ALICE MasterClasses}
+    \item<2> \textbf{more ALICE MasterClasses in one package}
     \item<2> Strangeness
     \item<2> Raa
-    \item<2> Jpsi
+    \item<2> J/Psi
 
     \item<3> \textbf{Allow other experiments and institutes to join}
+    \item<4> \textbf{address classical software topics}
   \end{itemize}
 \end{frame}
 
 \begin{frame}{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{Starting point}}
   \begin{itemize}
-    \item address classical software topics (deployment, correctness, stability, extendability)
     \item Version from Christian Holm Christensen
     \item Repository on \textbf{gitlab.cern.ch}
       % TODO \item Screenshot of initial window (Class and Language Selection)
@@ -90,18 +90,26 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{Translation}}
+\begin{frame}{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{Starting point}}
+  \begin{figure}
+    \centering
+    \includegraphics[height=0.8\textheight]{SelectionWindow.png}\hspace{0cm}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{New: Full Translation}}
   \begin{itemize}
-    \item \textbf{Provide a way to easily add a new language}
-    \item \textbf{translate whole program}
-    \item added German translation, Dutch is WIP
-    \item file-based solution does not require programming skills
-    \item static analysis for consistency
-    \item semi-automatic snippet translation through Google Translate
+    \item<1> \textbf{Provide a way to easily add a new language}
+    \item<1>\textbf{translate whole program}
+    \item<2> added German translation, Dutch is WIP
+    \item<2> file-based solution does not require programming skills
+    \item<2> static analysis for consistency
+    \item<2> semi-automatic snippet translation through Google Translate
+    \item<3> \textbf{Groups are encouraged to add translations}
   \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{Translation}}
+\begin{frame}[fragile]{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{New: Full Translation}}
   \begin{minted}[
       fontsize=\footnotesize,
     ]{c++}
@@ -119,7 +127,7 @@
   \end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{Translation}}
+\begin{frame}[fragile]{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{New: Full Translation}}
   \begin{minted}[
       fontsize=\footnotesize,
     ]{c++}
@@ -138,23 +146,20 @@
 \end{frame}
 
 
-\begin{frame}[fragile]{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{Translation}}
+\begin{frame}[fragile]{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{New: Full Translation}}
   \begin{minted}[
       fontsize=\footnotesize,
     ]{c++}
     /// src/EntryPoint/GUITranslation.h
     /// Provide a class that will provide all available strings
-    /// in English. This class is used as fallback as well, if
-    /// some strings have not been translated.
+    /// in English.
     struct TGUIEnglish : Utility::TLanguageProvider {
       TGUIEnglish(Utility::ESupportedLanguages lang = Utility::English)
-        : TLanguageProvider(lang)
-      {
-        /// Registering a Key-Value store for
+        : TLanguageProvider(lang) {
+          /// Registering a Key-Value store for
         /// small strings that are translated
         std::cerr << "Registering English  GUI Selection\n";
         #include "EntryPoint/keys_gui_trans.txt.en"
-
         /// Statically compile in whole translated HTML files.
         RegisterText("Description",
         #include "EntryPoint/Description.en.html"
@@ -164,15 +169,14 @@
   \end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{Translation}}
+\begin{frame}[fragile]{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{New: Full Translation}}
   \begin{minted}[
       fontsize=\footnotesize,
     ]{c++}
     /// src/EntryPoint/GUITranslation.h
     /// Makes the strings available as methods.
-    /// This ensures on compile-time that only existing strings
-    /// are used and avoids common errors like typos in the
-    /// Key-Value-Access.
+    /// This ensures on compile-time that only existing strings are
+    /// used and avoids common errors like typos in the Key-Value-Access.
     struct TGUIEnglish : Utility::TLanguageProvider {
       TGUIEnglish(Utility::ESupportedLanguages lang = Utility::English);
       /// Create all Methods to request the corresponding text snippets.
@@ -188,7 +192,7 @@
   \end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{Translation}}
+\begin{frame}[fragile]{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{New: Full Translation}}
   \begin{minted}[
       fontsize=\footnotesize,
     ]{c++}
@@ -209,14 +213,21 @@
   \end{minted}
 \end{frame}
 
+\begin{frame}{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{New: Full Translation}}
+  \begin{figure}
+    \centering
+    \includegraphics[height=0.8\textheight]{GermanRaa.png}\hspace{0cm}
+  \end{figure}
+\end{frame}
+
 \begin{frame}{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{Refactoring}}
   \begin{block}{Refactoring}
     Structural Changes of Code without affecting behaviour.
   \end{block}
 
   \begin{itemize}
-    \item<2> Missing Tests can not catch random breakage
-    \item<2> To Refactor you need to test, to add tests you need to refactor.
+    \item<2> Missing tests can not catch random breakage
+    \item<2> To refactor you need to test, to add tests you need to refactor.
     \item<2> \textbf{Obstacle} every masterclass was copy\&pasted
   \end{itemize}
   % TODO UML Diagram to show, simplified
@@ -260,7 +271,7 @@
   \begin{minted}[
       fontsize=\footnotesize,
     ]{c++}
-    /// Just the public interface, a lot more coupling happens through 
+    /// Just the public interface, a lot more coupling happens through
     /// implicitly shared state.
     class Counter : public TGMainFrame
     {
@@ -276,8 +287,6 @@
       TGNumberEntryField* AddField(TGCompositeFrame* cf, TGLayoutHints* lh,
                                    Bool_t isInt = false, Bool_t neg = false);
       void Build();
-      void Reset(ECollisionSystem collSys, Bool_t ResetAll = true);
-      void DoExit() { this->UnmapWindow(); }
       /// ...
   \end{minted}
 \end{frame}
@@ -288,6 +297,8 @@
       fontsize=\footnotesize,
     ]{c++}
       /// ...
+      void Reset(ECollisionSystem collSys, Bool_t ResetAll = true);
+      void DoExit() { this->UnmapWindow(); }
       void CountAutomatic();
       void Reset(Bool_t ResetAll = true);
       void Instructions();
@@ -314,17 +325,32 @@
   % TODO Maybe do a demo on this one
 \end{frame}
 
+\begin{frame}{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{Extend Raa-Class}}
+  \begin{figure}
+    \centering
+    \includegraphics[height=0.8\textheight]{EventDisplayAndTasks.png}\hspace{0cm}
+  \end{figure}
+\end{frame}
+
 \begin{frame}{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{New J/Psi Masterclass}}
   \begin{itemize}
     \item Implemented from GSI
     \item right now just a code dump
+      % TODO Make more clear that it already runs
     \item can be run the same way as Strangeness and Raa
   \end{itemize}
 \end{frame}
 
+\begin{frame}{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{New J/Psi Masterclass}}
+  \begin{figure}
+    \centering
+    \includegraphics[height=0.8\textheight]{JPsiClass.png}\hspace{0cm}
+  \end{figure}
+\end{frame}
+
 \begin{frame}{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{Deployment and Usage}}
   \begin{itemize}
-    \item<1-> ROOT6 to be future prove
+    \item<1-> ROOT6 to be future proof
     \item<2-> compiled executable (only Linux at the moment)
     \item<2-> requires only ROOT6 installed on the system
     \item<2-> CMake based process
@@ -343,7 +369,17 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}{\includegraphics[height=0.07\textheight]{2012-Jul-04-4_Color_Logo_CB.png} \hspace{0.2cm}\textbf{Outlook jsROOT}}
+  \begin{figure}
+    \centering
+    \includegraphics[height=0.8\textheight]{jsROOTDisplay.png}\hspace{0cm}
+  \end{figure}
+\end{frame}
+
 \begin{frame}[noframenumbering]{}
+  \begin{center}
+    \textbf{\fontsize{30pt}{10pt}{Questions}}
+  \end{center}
 \end{frame}
 
 \begin{frame}[noframenumbering]{Finalizing my work}
